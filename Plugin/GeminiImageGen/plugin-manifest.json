@@ -1,0 +1,33 @@
+{
+  "manifestVersion": "1.0.0",
+  "name": "GeminiImageGen",
+  "version": "1.0.0",
+  "displayName": "Gemini 图像生成器",
+  "description": "使用 Google Gemini Pro Vision 模型生成图像的插件。它可以根据文本提示和可选的输入图像创建新图像。",
+  "author": "Jules",
+  "pluginType": "synchronous",
+  "entryPoint": {
+    "type": "nodejs",
+    "command": "node GeminiImageGen.mjs"
+  },
+  "communication": {
+    "protocol": "stdio",
+    "timeout": 60000
+  },
+  "configSchema": {
+    "GEMINI_API_KEY": {
+      "type": "string",
+      "description": "用于访问 Google Gemini API 的 API 密钥。",
+      "required": true
+    }
+  },
+  "capabilities": {
+    "invocationCommands": [
+      {
+        "commandIdentifier": "GenerateImage",
+        "description": "调用此工具可基于文本提示和可选的输入图像生成新图像。它支持多种图像 URL 格式，包括 http(s)://, data: URI, 以及 file://。当提供 file:// URL 时，即使文件位于远程客户端上，系统也能够自动处理文件获取。\n参数:\n- prompt (字符串, 必需): 用于生成图像的详细文本描述。\n- image_url (字符串, 可选): 输入图像的 URL。支持 http(s)://, data:image/...;base64, 和 file:///... 格式。\n调用格式:\n<<<[TOOL_REQUEST]>>>\ntool_name:「始」GeminiImageGen「末」,\nprompt:「始」一只戴着宇航员头盔的猫的肖像「末」,\nimage_url:「始」file:///path/to/your/image.png「末」\n<<<[END_TOOL_REQUEST]>>>",
+        "example": "<<<[TOOL_REQUEST]>>>\ntool_name:「始」GeminiImageGen「末」,\nprompt:「始」将这只狗变成赛博朋克风格「末」,\nimage_url:「始」file:///C:/Users/Public/Pictures/dog.jpg「末」\n<<<[END_TOOL_REQUEST]>>>"
+      }
+    ]
+  }
+}
