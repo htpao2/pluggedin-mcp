@@ -1,0 +1,38 @@
+{
+  "manifestVersion": "1.0.0",
+  "name": "PluggedInMCPProxy",
+  "version": "1.0.0",
+  "displayName": "PluggedInMCP Proxy Plugin",
+  "description": "A VCP plugin that acts as a proxy to a PluggedInMCP server, allowing calls to any of its managed tools.",
+  "author": "Jules",
+  "pluginType": "synchronous",
+  "entryPoint": {
+    "type": "nodejs",
+    "command": "node dist/vcp-adapter.js"
+  },
+  "communication": {
+    "protocol": "stdio",
+    "timeout": 60000
+  },
+  "configSchema": {
+    "PLUGGEDIN_API_KEY": {
+      "type": "string",
+      "description": "The API key for the PluggedInMCP service.",
+      "required": true
+    },
+    "PLUGGEDIN_API_BASE_URL": {
+      "type": "string",
+      "description": "The base URL for the PluggedInMCP API.",
+      "required": true
+    }
+  },
+  "capabilities": {
+    "invocationCommands": [
+      {
+        "commandIdentifier": "proxy_tool_call",
+        "description": "Proxies a tool call to a downstream MCP tool managed by the PluggedInMCP server. The arguments to this plugin are 'tool_to_call' and 'tool_arguments'.\n\n- `tool_to_call` (string, required): The exact name of the tool you want to execute through the proxy (e.g., 'get_tools', 'github__create_issue').\n- `tool_arguments` (object, required): An object containing the arguments for the target tool.\n\nExample: To call the 'github__create_issue' tool:\n<<<[TOOL_REQUEST]>>>\ntool_name:「始」PluggedInMCPProxy「末」,\ntool_to_call:「始」github__create_issue「末」,\ntool_arguments:「始」{\"repository\":\"user/repo\",\"title\":\"New Issue\",\"body\":\"Issue body\"}「末」\n<<<[END_TOOL_REQUEST]>>>",
+        "example": "<<<[TOOL_REQUEST]>>>\ntool_name:「始」PluggedInMCPProxy「末」,\ntool_to_call:「始」get_tools「末」,\ntool_arguments:「始」{}「末」\n<<<[END_TOOL_REQUEST]>>>"
+      }
+    ]
+  }
+}
